@@ -1,0 +1,41 @@
+<% layout('layouts/boilerplate') %>
+<div class="container d-flex justify-content-center align-items-center mx-auto">
+    <div class="row">
+        <div class="form-container">
+            <h2 class="text-center">New Campground</h2>
+            <div>
+                <form class="mb-4 needs-validation" action="/campgrounds" method="post" enctype="multipart/form-data" novalidate>
+                    <div class="mb-2">
+                        <label for="description" class="form-label">Campground Name:</label>
+                        <textarea class="form-control" rows="1" placeholder="campground name" name="campground[description]" id="description" required></textarea>
+                    </div>
+                    <div class="mb-2">
+                        <label for="city" class="form-label">Location:</label>
+                        <input class="form-control" type="text" placeholder="location" name="campground[city]" id="city" required>
+                    </div>
+                    <div class="mb-2">
+                        <label for="population" class="form-label">Population:</label>
+                        <input class="form-control" type="number" placeholder="population" name="campground[population]" id="population"
+                            required>
+                    </div>
+                    <div class="mb-2">
+                        <label for="state" class="form-label">State:</label>
+                        <input class="form-control" type="text" placeholder="state" name="campground[state]" id="state" required>
+                    </div>
+                    <div class="mb-2">
+                        <label for="price" class="form-label">Price ($):</label>
+                        <input class="form-control" type="text" placeholder="price" name="campground[price]" id="price" required>
+                    </div>
+                    <div class="mb-2">
+                        <label for="image" class="form-label">Image:</label>
+                        <br>
+                        <input type="file" name="campground[image]" id="image" accept="image/jpeg, image/png, image/jpg" required multiple>
+                    </div>
+                    <button type="submit" class="btn btn-success btn-sm btn-block" style="width:100%">Create Campground</button>
+                </form>
+                <a href="/campgrounds">Back to Home</a>
+            </div>
+        </div>
+    </div>
+</div>
+    

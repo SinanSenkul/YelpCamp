@@ -1,0 +1,56 @@
+<% layout('/layouts/boilerplate') %>
+
+<div class="container d-flex justify-content-center align-items-center mx-auto">
+    <div class="row">
+        <div class="form-container">
+            <h2 class="text-center">Edit Campground</h2>
+            <div>
+                <form class="mb-4 needs-validation" action="/campgrounds/<%= editCampground._id %>?_method=PATCH" method="post" enctype="multipart/form-data" novalidate>
+                    <div class="mb-2">
+                        <label for="description" class="form-label"><b>Campground Name:</b></label>
+                        <textarea class="form-control" rows="1" placeholder="campground name" name="campground[description]" id="description" required><%= editCampground.description %></textarea>
+                    </div>
+                    <div class="mb-2">
+                        <label for="city" class="form-label"><b>Location:</b></label>
+                        <textarea class="form-control" rows="1" type="text" placeholder="location" name="campground[city]" id="city" required><%= editCampground.city %></textarea>
+                    </div>
+                    <div class="mb-2">
+                        <label for="population" class="form-label"><b>Population:</b></label>
+                        <input class="form-control" type="number" placeholder="population" name="campground[population]" id="population" required value=<%= editCampground.population %>>
+                    </div>
+                    <div class="mb-2">
+                        <label for="state" class="form-label"><b>State:</b></label>
+                        <input class="form-control" type="text" placeholder="state" name="campground[state]" id="state" required value=<%= editCampground.state %>>
+                    </div>
+                    <div class="mb-2">
+                        <label for="price" class="form-label"><b>Price ($):</b></label>
+                        <input class="form-control" type="text" placeholder="price" name="campground[price]" id="price" required value=<%= editCampground.price %>>
+                    </div>
+                    <div class="mb-2">
+                        <label for="image" class="form-label"><b>Select Images To Add:</b></label>
+                        <br>
+                        <input type="file" placeholder="image" name="campground[image]" id="image" accept="image/jpeg, image/png, image/jpg" multiple>
+                    </div>
+                    <div class="mb-2">
+                        <label for="removeimagelist" class="form-label"><b>Select Images To Delete:</b></label>
+                        <ul id="removeimagelist" class="list-unstyled">
+                            <% for (img of editCampground.image){ %>
+                                <li>
+                                    <div class="mb-2">
+                                        <img class="img-fluid img-thumbnail" style="width:300px; height:200px" src="<%= img.url %>" alt="">
+                                        <input type = "checkbox" name = "check" value = "<%= img.filename %>"/>
+                                    </div>
+                                </li>
+                            <% } %>
+                        </ul>
+                    </div>
+                    <button type="submit" class="btn btn-success btn-sm btn-block" style="width:100%">Save Campground</button>
+                </form>
+                <a href="/campgrounds">Back to Home</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<a href="/campgrounds">Back to Home</a>
+

@@ -1,0 +1,26 @@
+<% layout('layouts/boilerplate') %>
+
+<div class="container d-flex justify-content-center align-items-center mx-auto">
+    <div class="row">
+        <div class="form-container">
+            <div>
+                <form class="mb-4 needs-validation" action="/register" method="post" novalidate>
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username:</label>
+                        <input class="form-control" type="text" placeholder="username" name="user[username]" id="username" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password:</label>
+                        <input class="form-control" type="password" placeholder="password" name="user[password]" id="password"
+                            required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email:</label>
+                        <input class="form-control" type="text" placeholder="email" name="user[email]" id="email" required>
+                    </div>
+                    <button type="submit" class="btn btn-success btn-sm btn-block" style="width:100%">Register</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,163 @@
+<% layout('/layouts/boilerplate') %>
+
+<link rel="stylesheet" type="text/css" href="/styles/stars.css"/>
+<link rel="stylesheet" type="text/css" href="/styles/style.css"/>
+
+<div class="row">
+        <div class="col-6">
+            <h2><%= campground.description %></h2>
+            <span><b>State:</b> <%= campground.state %></span>
+            <br>
+            <span><b>Population:</b> <%= campground.population %></span>
+            <br>
+            <span><b>Price:</b> $<%= campground.price %></span>
+            <br>
+            <span><b>Location: </b><%= campground.city %>, <%= campground.state %></span>
+            <br>
+            <br>
+            <div id="menu">
+                <input id="satellite-v9" type="radio" name="rtoggle" value="satellite" checked="checked">
+                <!-- See a list of Mapbox-hosted public styles at -->
+                <!-- https://docs.mapbox.com/api/maps/styles/#mapbox-styles -->
+                <label for="satellite-v9">satellite</label>
+                <input id="light-v10" type="radio" name="rtoggle" value="light">
+                <label for="light-v10">light</label>
+                <input id="dark-v10" type="radio" name="rtoggle" value="dark">
+                <label for="dark-v10">dark</label>
+                <input id="streets-v11" type="radio" name="rtoggle" value="streets">
+                <label for="streets-v11">streets</label>
+                <input id="outdoors-v11" type="radio" name="rtoggle" value="outdoors">
+                <label for="outdoors-v11">outdoors</label>
+            </div>
+            <div id="map" name="showpagemap" class="mb-2"></div>
+            <label for="carousel"><b>Gallery:</b></label>    
+            <div id="carousel" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner mb-2">
+                    <% campground.image.forEach((img, i) => { %>
+                        <div class="<%= i === 0 ? 'carousel-item active' : 'carousel-item' %>">
+                            <img class="d-block w-100" src="<%= img.url %>" alt="">
+                        </div>
+                    <% }) %>
+                </div>
+                <% if (campground.image.length > 1){ %>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
+                <% } %>
+            </div>
+            <div class="d-flex flex-row-reverse">
+                <small class="text-muted">Created by <b><%= campground.author.username %></b></small>
+            </div>
+            <% if(currentUser && campground.author.equals(currentUser._id)){ %>
+                <div class="container w-50">
+                    <div class="d-flex justify-content-between">
+                        <div class="m-1">
+                            <form action="/campgrounds/<%= campground._id %>/edit">
+                                <button class="btn btn-sm btn-outline-secondary">Edit</button>
+                            </form>
+                        </div>
+                        <div class="m-1">
+                            <form action="/campgrounds/<%= campground._id %>/?_method=DELETE" method="POST">
+                                <button class="btn btn-sm btn-outline-secondary">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+        <div class="col-6">
+            <div class="row">
+                <h2>User Reviews</h2>
+                <% if(!campground.reviews.length){ %>
+                    <span>No reviews yet.</span>
+                <% } %>
+                <ul>
+                    <% for (review of reviews){ %>
+                        <div class="card mb-1"> <!-- border-0 can be added for transparent border -->
+                            <span>
+                                <p class="starability-result" data-rating=<%= review.rating %>>
+                                    Rated: 3 stars
+                                </p>
+                                <%= review.body %>
+                            </span>
+                            <div class="d-flex flex-row-reverse">
+                                <small class="m-1 text-muted"><%= review.author.username %></small>
+                            </div>
+                            <div class="d-flex flex-row-reverse">
+                                <% if(currentUser && review.author.equals(currentUser._id)){ %>
+                                    <form action="/campgrounds/<%= campground._id %>/review/<%= review._id %>?_method=DELETE" method="POST">
+                                        <button class="btn btn-sm btn-outline-secondary m-1" data-toggle="button" aria-pressed="false" autocomplete="off">Delete</button>
+                                    </form>
+                                <% } %>  
+                            </div>
+                        </div>
+                    <% } %>
+                </ul>
+            </div>
+            <% if(currentUser){ %>
+                <div class="row">
+                    <div>
+                        <form class="mb-4 needs-validation" action="/campgrounds/<%= campground._id %>/review" method="post" method="post" novalidate>
+                            <div class="mb-2">
+                                <textarea class="form-control" rows="3" placeholder="Leave a review" name="review[body]" id="body" required></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="rating" class="form-label">Your Rating</label>
+                                <!-- <input type="range" class="form-range" min="1" max="5" id="rating" name="review[rating]"> -->
+                                <fieldset id="rating" name="review[rating]" class="starability-basic">
+                                    <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="0" checked aria-label="No rating." />
+                                    <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+                                    <label for="first-rate1" title="Terrible">1 star</label>
+                                    <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+                                    <label for="first-rate2" title="Not good">2 stars</label>
+                                    <input type="radio" id="first-rate3" name="review[rating]" value="3" />
+                                    <label for="first-rate3" title="Average">3 stars</label>
+                                    <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+                                    <label for="first-rate4" title="Very good">4 stars</label>
+                                    <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+                                    <label for="first-rate5" title="Amazing">5 stars</label>
+                                    </fieldset>
+                            </div>
+                            <button class="btn btn-sm btn-outline-secondary" type="submit">Submit</button>
+                        </form>
+                        <a href="/campgrounds">Back to Home</a>
+                </div>
+            </div>
+        <% } %>
+    </div>
+</div>
+
+<script>
+    mapboxgl.accessToken = '<%- process.env.MAPBOX_TOKEN %>';
+    var map = new mapboxgl.Map({
+        container: 'map', // container ID
+        // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
+        style: 'mapbox://styles/mapbox/satellite-v9', // style URL
+        center: ['<%= lng %>', '<%= lat %>'], // starting position [lng, lat]
+        zoom: 9, // starting zoom
+        projection: 'globe' // display the map as a 3D globe    
+    });
+
+    map.on('style.load', () => {
+        map.setFog({}); // Set the default atmosphere style
+    });
+
+    var marker = new mapboxgl.Marker()
+        .setLngLat(['<%= lng %>', '<%= lat %>'])
+        .addTo(map);
+
+    const layerList = document.getElementById('menu');
+    const inputs = layerList.getElementsByTagName('input');
+ 
+    for (const input of inputs) {
+        input.onclick = (layer) => {
+            const layerId = layer.target.id;
+            map.setStyle('mapbox://styles/mapbox/' + layerId);
+        };
+    }
+</script>
