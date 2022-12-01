@@ -19,8 +19,8 @@ const localStrategy = require('passport-local');
 const bodyParser = require('body-parser');
 const mongoSanitize = require('express-mongo-sanitize');
 const helmet = require('helmet');
-const dbURL = process.env.DB_URL; //mongo atlas db url
 const localURL = process.env.LOCAL_URL;
+const dbURL = process.env.DB_URL || localURL; //mongo atlas db url
 const MongoStore = require('connect-mongo');
 
 mongoose.connect(dbURL, {
@@ -55,13 +55,14 @@ app.use(
     }),
 );
 
+const secret = process.env.SECRET || 'sessionsecret';
+
 var store = MongoStore.create({
     mongoUrl: dbURL,
+    secret,
     touchAfter: 24 * 60 * 60, //seconds
     ttl: 14 * 24 * 60 * 60 // = 14 days. Default
 });
-
-const secret = process.env.SECRET || 'sessionsecret';
 
 const sessionConfig = { //default store is the memory store.
     name: 'yelpsession',
