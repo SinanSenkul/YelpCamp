@@ -58,7 +58,7 @@ app.use(
 const secret = process.env.SECRET || 'sessionsecret';
 
 var store = new MongoStore({
-    mongoUrl: dbURL,
+    url: dbURL,
     secret,
     touchAfter: 24 * 60 * 60, //seconds
     ttl: 14 * 24 * 60 * 60 // = 14 days. Default
