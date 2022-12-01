@@ -160,6 +160,6 @@ app.use((err, req, res, next) => { //error handlers are written last in app.use 
 })
 
 var port = process.env.PORT || 3000;
-app.listen(port, () => {
+app.listen(process.env.PORT || 3000, () => {
     console.log('Yelpcamp server listening on port: ' + port);
 })
