@@ -5,7 +5,6 @@ const { findById } = require('../models/campground');
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const mapBoxToken = process.env.MAPBOX_TOKEN;
 const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
-var GeoJSON = require('geojson');
 
 module.exports.newCampgroundGet = async (req, res, next) => {
     var title = 'New Campground';
