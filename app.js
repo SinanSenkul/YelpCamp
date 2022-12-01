@@ -57,7 +57,7 @@ app.use(
 
 const secret = process.env.SECRET || 'sessionsecret';
 
-var store = MongoStore.create({
+var store = new MongoStore({
     mongoUrl: dbURL,
     secret,
     touchAfter: 24 * 60 * 60, //seconds
