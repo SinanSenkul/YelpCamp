@@ -21,7 +21,8 @@ const mongoSanitize = require('express-mongo-sanitize');
 const helmet = require('helmet');
 const localURL = process.env.LOCAL_URL;
 const dbURL = process.env.DB_URL || localURL; //mongo atlas db url
-const MongoStore = require('connect-mongo');
+//const MongoStore = require('connect-mongo');
+const MongoDBStore = require('connect-mongodb-session')(session);
 
 mongoose.connect(dbURL, {
     useNewUrlParser: true,
@@ -63,13 +64,12 @@ const secret = process.env.SECRET || 'sessionsecret';
     ttl: 14 * 24 * 60 * 60 // = 14 days. Default
 }); */
 
+var store = new MongoDBStore({
+    uri: dbURL,
+});
+
 const sessionConfig = { //default store is the memory store.
-    store: MongoStore.create({
-        mongoUrl: dbURL,
-        secret,
-        touchAfter: 24 * 60 * 60, //seconds
-        ttl: 14 * 24 * 60 * 60
-    }),
+    store: store,
     name: 'yelpsession',
     secret,
     resave: false,
