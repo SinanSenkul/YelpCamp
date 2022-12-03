@@ -1,6 +1,6 @@
-/* if (process.env.NODE_ENV !== "production"){ //not production: website is under development.
+if (process.env.NODE_ENV !== "production"){ //not production: website is under development.
     require('dotenv').config();
-} */
+}
 
 const express = require('express');
 const mongoose = require('mongoose');
@@ -57,12 +57,12 @@ app.use(
 
 const secret = process.env.SECRET || 'sessionsecret';
 
-var store = new MongoStore({
-    url: dbURL,
+/* const store = new MongoStore({
+    mongoUrl: dbURL,
     secret,
     touchAfter: 24 * 60 * 60, //seconds
     ttl: 14 * 24 * 60 * 60 // = 14 days. Default
-});
+}); */
 
 const sessionConfig = { //default store is the memory store.
     name: 'yelpsession',
@@ -75,7 +75,12 @@ const sessionConfig = { //default store is the memory store.
         httpOnly: true,
         //secure: true //commented out before deploying
     },
-    store: store
+    store: MongoStore.create({
+        mongoUrl: dbURL,
+        secret,
+        touchAfter: 24 * 60 * 60, //seconds
+        ttl: 14 * 24 * 60 * 60
+    })
 }
 app.use(session(sessionConfig));
 app.use(flash());
