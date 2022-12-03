@@ -21,7 +21,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const helmet = require('helmet');
 const localURL = process.env.LOCAL_URL;
 const dbURL = process.env.DB_URL || localURL; //mongo atlas db url
-const MongoStore = require('connect-mongo')(session);
+const MongoStore = require('connect-mongo');
 
 mongoose.connect(dbURL, {
     useNewUrlParser: true,
@@ -164,6 +164,7 @@ app.use((err, req, res, next) => { //error handlers are written last in app.use 
     res.status(status).render('error', { title, status, err });
 })
 
-app.listen(process.env.PORT || 3000, () => {
+const port = process.env.PORT || 3005;
+app.listen(port, () => {
     console.log('Yelpcamp server listening');
 })

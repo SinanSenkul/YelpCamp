@@ -123,3 +123,9 @@ app.get('/admin', (req, res) => { // an example of throwing 403 'forbidden' erro
 /* const methodOverride = require('method-override');
 const User = require('../models/user');
 const ExpressError = require('../utils/ExpressError'); */
+
+/* In validSchema.js:
+image: {
+    url: joi.string(),
+    filename: joi.string().escapeHTML()
+}, */

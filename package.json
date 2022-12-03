@@ -35,13 +35,8 @@
     "type": "git",
     "url": "git+https://github.com/SinanSenkul/YelpCamp.git"
   },
-  "bugs": {
-    "url": "https://github.com/SinanSenkul/YelpCamp/issues"
-  },
   "engines": {
     "node": ">= 16.15.0",
     "npm": "8.5.5"
-  },
-  "homepage": "https://github.com/SinanSenkul/YelpCamp#readme",
-  "description": ""
+  }
 }

@@ -24,21 +24,18 @@ const extension = (joi) => ({
 
 const joi = baseJoi.extend(extension);
 
-const campgroundSchema = new joi.object({
+const campgroundSchema = joi.object({
     campground: joi.object({
         city: joi.string().required().escapeHTML(),
         population: joi.number().required(),
         state: joi.string().required().escapeHTML(),
         price: joi.number().required().min(0),
-        image: {
-            url: joi.string(),
-            filename: joi.string().escapeHTML()
-        },
         description: joi.string().required().escapeHTML(),
-    }).required()
+    }).required(),
+    deleteImages: joi.array()
 })
 
-const reviewSchema = new joi.object({
+const reviewSchema = joi.object({
     review: joi.object({
         body: joi.string().required().escapeHTML(),
         rating: joi.number().required().min(0).max(5),
