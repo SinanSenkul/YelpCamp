@@ -1,6 +1,6 @@
-if (process.env.NODE_ENV !== "production"){ //not production: website is under development.
+/* if (process.env.NODE_ENV !== "production"){ //not production: website is under development.
     require('dotenv').config();
-}
+} */
 
 const express = require('express');
 const mongoose = require('mongoose');
