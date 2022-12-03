@@ -21,7 +21,7 @@ const mongoSanitize = require('express-mongo-sanitize');
 const helmet = require('helmet');
 const localURL = process.env.LOCAL_URL;
 const dbURL = process.env.DB_URL || localURL; //mongo atlas db url
-const MongoStore = require('connect-mongo');
+const MongoStore = require('connect-mongo')(session);
 
 mongoose.connect(dbURL, {
     useNewUrlParser: true,
