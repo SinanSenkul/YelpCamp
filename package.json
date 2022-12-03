@@ -36,7 +36,7 @@
     "url": "git+https://github.com/SinanSenkul/YelpCamp.git"
   },
   "engines": {
-    "node": ">= 16.15.0",
+    "node": "16.15.0",
     "npm": "8.5.5"
   }
 }
