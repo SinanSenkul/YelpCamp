@@ -48,8 +48,7 @@ app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true })); //this code enables to parse req.body
 app.use(methodOverride('_method')); // enables editing
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(
-    mongoSanitize({
+app.use(mongoSanitize({
       allowDots: true,
       replaceWith: '_',
     }),
@@ -65,6 +64,12 @@ const secret = process.env.SECRET || 'sessionsecret';
 }); */
 
 const sessionConfig = { //default store is the memory store.
+    store: MongoStore.create({
+        mongoUrl: dbURL,
+        secret,
+        touchAfter: 24 * 60 * 60, //seconds
+        ttl: 14 * 24 * 60 * 60
+    }),
     name: 'yelpsession',
     secret,
     resave: false,
@@ -75,15 +80,10 @@ const sessionConfig = { //default store is the memory store.
         httpOnly: true,
         //secure: true //commented out before deploying
     },
-    store: MongoStore.create({
-        mongoUrl: dbURL,
-        secret,
-        touchAfter: 24 * 60 * 60, //seconds
-        ttl: 14 * 24 * 60 * 60
-    })
 }
 app.use(session(sessionConfig));
 app.use(flash());
+app.use(helmet());
 
 //app.use(helmet());
 const scriptSrcUrl = [
